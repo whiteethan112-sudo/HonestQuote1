@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coverage, built around one goal — Request Your Quote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #17221C;
+    --ink-2: #1E2B23;
+    --ink-3: #263427;
+    --paper: #ECEFE2;
+    --paper-2: #E2E6D5;
+    --text-light: #F3F1E7;
+    --text-light-dim: #C9CDBE;
+    --text-dark: #1B241D;
+    --text-dark-dim: #56604F;
+    --amber: #E3A24D;
+    --sage: #7E9481;
+    --dusk: #7C8FA6;
+    --clay: #C1694C;
+    --line: rgba(243,241,231,0.14);
+    --line-dark: rgba(27,36,29,0.14);
+    --radius: 3px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--text-light);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+  }
+  h1,h2,h3{
+    font-family:'Source Serif 4', serif;
+    font-weight:500;
+    margin:0;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--amber);
+  }
+  a { color:inherit; }
+  button{ font-family:inherit; }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- layout shells ---------- */
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  /* ---------- nav ---------- */
+  nav.top{
+    position:sticky; top:0; z-index:40;
+    background:rgba(23,34,28,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.top .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .wordmark{
+    font-family:'Source Serif 4', serif;
+    font-size:20px;
+    display:flex; align-items:center; gap:9px;
+  }
+  .wordmark svg{ width:20px; height:20px; }
+  .navlink{
+    font-size:14px;
+    text-decoration:none;
+    color:var(--text-light-dim);
+    border:1px solid var(--line);
+    padding:9px 18px;
+    border-radius:var(--radius);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .navlink:hover{ border-color:var(--amber); color:var(--text-light); }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    position:relative;
+    padding:72px 0 48px;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .horizon{
+    position:absolute; left:0; right:0; bottom:0;
+    width:100%; height:auto;
+    opacity:0.9;
+    pointer-events:none;
+  }
+  .hero-inner{ position:relative; z-index:2; max-width:660px; }
+  .hero h1{
+    font-size:40px;
+    line-height:1.14;
+    margin:18px 0 20px;
+    color:var(--text-light);
+  }
+  .hero h1 em{ font-style:italic; color:var(--amber); }
+  .hero p.lede{
+    font-size:17px;
+    color:var(--text-light-dim);
+    max-width:520px;
+    margin:0 0 8px;
+  }
+  @media (max-width:640px){ .hero h1{ font-size:30px; } header.hero{ padding:48px 0 36px; } }
+
+  /* ---------- stage (slide wizard) ---------- */
+  section.stage{ padding:32px 0 18px; }
+  @media (max-width:640px){ section.stage{ padding:24px 0 12px; } }
+  .stage-head{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+    margin-bottom:26px;
+    flex-wrap:wrap;
+  }
+  .stage-step-label{ color:var(--text-light-dim); }
+  .stage-dots{ display:flex; gap:8px; }
+  .stage-dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:transparent;
+    border:1px solid var(--line);
+    transition:background .25s ease, border-color .25s ease, transform .25s ease;
+  }
+  .stage-dot.done{ background:var(--sage); border-color:var(--sage); }
+  .stage-dot.active{ background:var(--amber); border-color:var(--amber); transform:scale(1.35); }
+
+  .slide-viewport{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-radius:6px;
+    transition:height .38s cubic-bezier(.65,0,.35,1);
+  }
+  .slide-track{
+    display:flex;
+    width:100%;
+    transition:transform .5s cubic-bezier(.65,0,.35,1);
+  }
+  .slide{
+    flex:0 0 100%;
+    max-width:100%;
+    box-sizing:border-box;
+    padding:40px 40px 14px;
+  }
+  .slide.theme-paper{
+    background:var(--paper);
+    color:var(--text-dark);
+  }
+  @media (max-width:640px){ .slide{ padding:24px 20px 12px; } }
+
+  .picker-head{ max-width:600px; margin-bottom:26px; }
+  .picker-head h2{ font-size:25px; color:var(--text-light); margin-top:10px; }
+  .picker-head p{ color:var(--text-light-dim); margin-top:10px; font-size:15px; }
+  .theme-paper .picker-head h2{ color:var(--text-dark); }
+  .theme-paper .picker-head p{ color:var(--text-dark-dim); }
+  .theme-paper .picker-head .eyebrow{ color:var(--clay); }
+
+  .goal-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width:720px){ .goal-grid{ grid-template-columns:1fr; } }
+
+  .goal-card{
+    position:relative;
+    text-align:left;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px 24px 22px;
+    cursor:pointer;
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    transition:border-color .2s ease, background .2s ease, transform .15s ease;
+  }
+  .goal-card:hover{ border-color:var(--goal-accent, var(--amber)); transform:translateY(-1px); }
+  .goal-card:focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+  .goal-card.selected{
+    background:var(--ink-3);
+    border-color:var(--goal-accent, var(--amber));
+    box-shadow:0 0 0 1px var(--goal-accent, var(--amber)) inset;
+  }
+  .beacon{
+    flex:0 0 auto;
+    width:38px; height:38px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    color:var(--goal-accent, var(--text-light-dim));
+    transition:box-shadow .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .goal-card.selected .beacon{
+    color:var(--goal-accent);
+    border-color:var(--goal-accent);
+    box-shadow:0 0 0 5px color-mix(in srgb, var(--goal-accent) 18%, transparent), 0 0 14px 2px color-mix(in srgb, var(--goal-accent) 55%, transparent);
+    animation:flicker 2.6s ease-in-out infinite;
+  }
+  @keyframes flicker{
+    0%,100%{ opacity:1; } 50%{ opacity:0.82; }
+  }
+  .beacon svg{ width:18px; height:18px; }
+  .goal-copy h3{ font-size:17px; color:var(--text-light); margin-bottom:4px; }
+  .goal-copy p{ font-size:13.5px; color:var(--text-light-dim); margin:0; }
+  .goal-card .check{
+    position:absolute; top:14px; right:14px;
+    width:16px; height:16px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    opacity:0;
+    transition:opacity .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .goal-card.selected .check{
+    opacity:1;
+    background:var(--goal-accent);
+    border-color:var(--goal-accent);
+  }
+
+  /* ---------- detail strip ---------- */
+  .detail-strip{
+    margin-top:22px;
+    border:1px solid var(--line);
+    border-left:3px solid var(--goal-accent, var(--amber));
+    background:var(--ink-2);
+    border-radius:var(--radius);
+    padding:18px 22px;
+    display:none;
+    gap:8px;
+    flex-direction:column;
+  }
+  .detail-strip.visible{ display:flex; }
+  .detail-strip .label{ font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--goal-accent, var(--amber)); }
+  .detail-strip p{ margin:0; color:var(--text-light-dim); font-size:14.5px; max-width:640px; }
+
+  /* ---------- amount step ---------- */
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  #amount-subhead{ color:var(--text-light-dim); margin-top:10px; font-size:15px; }
+  fieldset.amount-fieldset{
+    border:none; padding:0; margin:0;
+    transition:opacity .2s ease;
+  }
+  fieldset.amount-fieldset[disabled]{ opacity:0.45; }
+  .amount-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .amount-row .empty-hint{
+    font-size:13.5px; color:var(--text-light-dim);
+    font-family:'JetBrains Mono', monospace;
+  }
+  .amount-pill{
+    display:flex; align-items:center; gap:8px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:10px 16px;
+    font-size:14px;
+    background:var(--ink-2);
+    cursor:pointer;
+    transition:border-color .2s ease, color .2s ease, background .2s ease;
+  }
+  .amount-row .amount-pill{ color:var(--text-light-dim); }
+  .amount-row .amount-pill.checked{ color:var(--text-light); }
+  .amount-pill:hover{ border-color:var(--goal-accent, var(--amber)); }
+  .amount-pill input{ accent-color:var(--goal-accent, var(--amber)); width:auto; }
+  .amount-pill.checked{
+    border-color:var(--goal-accent, var(--amber));
+    color:var(--text-light);
+    background:var(--ink-3);
+  }
+
+  /* ---------- age step ---------- */
+  .age-input-row{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+  }
+  .age-input-row input{
+    font-family:'JetBrains Mono', monospace;
+    font-size:38px;
+    width:140px;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:var(--text-light);
+    padding:12px 16px;
+    text-align:center;
+  }
+  .age-input-row input::placeholder{ color:var(--text-light-dim); opacity:0.5; }
+  .age-input-row input:focus{
+    outline:none;
+    border-color:var(--amber);
+    box-shadow:0 0 0 3px rgba(227,162,77,0.15);
+  }
+  .age-input-row input::-webkit-inner-spin-button,
+  .age-input-row input::-webkit-outer-spin-button{
+    opacity:1;
+  }
+  .age-suffix{
+    font-size:15px;
+    color:var(--text-light-dim);
+  }
+
+  /* ---------- beneficiary step ---------- */
+  .beneficiary-input-row input{
+    font-family:'Source Serif 4', serif;
+    font-size:26px;
+    width:100%;
+    max-width:420px;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:var(--text-light);
+    padding:14px 18px;
+  }
+  .beneficiary-input-row input::placeholder{ color:var(--text-light-dim); opacity:0.5; }
+  .beneficiary-input-row input:focus{
+    outline:none;
+    border-color:var(--amber);
+    box-shadow:0 0 0 3px rgba(227,162,77,0.15);
+  }
+
+  /* ---------- budget step ---------- */
+  .budget-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .budget-pill{
+    display:flex; align-items:center; gap:8px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:10px 16px;
+    font-size:14px;
+    background:var(--ink-2);
+    cursor:pointer;
+    transition:border-color .2s ease, color .2s ease, background .2s ease;
+  }
+  .budget-row .budget-pill{ color:var(--text-light-dim); }
+  .budget-row .budget-pill.checked{ color:var(--text-light); }
+  .budget-pill:hover{ border-color:var(--amber); }
+  .budget-pill input{ accent-color:var(--amber); width:auto; }
+  .budget-pill.checked{
+    border-color:var(--amber);
+    background:var(--ink-3);
+  }
+
+  /* ---------- contact form slide ---------- */
+  .form-head{ max-width:600px; margin-bottom:30px; }
+  .form-head h2{ font-size:26px; color:var(--text-dark); margin-top:10px; }
+  .form-head p{ color:var(--text-dark-dim); margin-top:10px; font-size:15px; }
+  #goal-target{ font-weight:600; color:var(--text-dark); }
+
+  form.request{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px 20px;
+  }
+  form.request .field{ display:flex; flex-direction:column; gap:7px; }
+  form.request .field.full{ grid-column:1 / -1; }
+  @media (max-width:640px){ form.request{ grid-template-columns:1fr; } }
+
+  .theme-paper label{
+    font-size:12.5px;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.04em;
+    color:var(--text-dark-dim);
+  }
+  .theme-paper input, .theme-paper select{
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    padding:12px 13px;
+    border:1px solid var(--line-dark);
+    border-radius:var(--radius);
+    background:#fff;
+    color:var(--text-dark);
+    width:100%;
+  }
+  .theme-paper input:focus, .theme-paper select:focus{
+    outline:none;
+    border-color:var(--clay);
+    box-shadow:0 0 0 3px rgba(193,105,76,0.15);
+  }
+  .theme-paper fieldset.contact-time{
+    border:none; padding:0; margin:0;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .theme-paper fieldset.contact-time legend{
+    font-size:12.5px;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.04em;
+    color:var(--text-dark-dim);
+    padding:0; margin-bottom:2px;
+  }
+  .contact-time-row{ display:flex; gap:16px; flex-wrap:wrap; }
+  .contact-time-row label{
+    display:flex; align-items:center; gap:7px;
+    font-family:'Work Sans', sans-serif;
+    font-size:14px;
+    color:var(--text-dark);
+    cursor:pointer;
+  }
+  .contact-time-row input[type="radio"]{ width:auto; accent-color:var(--clay); }
+
+  .submit-row{
+    grid-column:1 / -1;
+    display:flex; align-items:center; gap:18px;
+    margin-top:6px;
+    flex-wrap:wrap;
+  }
+  button.submit{
+    background:var(--text-dark);
+    color:var(--paper);
+    border:none;
+    padding:15px 30px;
+    border-radius:var(--radius);
+    font-size:15px;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    transition:background .2s ease, transform .15s ease;
+  }
+  button.submit:hover{ background:#2c3a2c; transform:translateY(-1px); }
+  .fine{ font-size:12.5px; color:var(--text-dark-dim); max-width:320px; }
+
+  /* ---------- success slide ---------- */
+  .success-inner{ max-width:520px; }
+  .success-eyebrow{ display:block; margin-bottom:14px; color:var(--sage); }
+  .success-inner h2{ font-size:29px; color:var(--text-dark); margin-bottom:12px; }
+  .success-inner p{ margin:0; color:var(--text-dark-dim); font-size:15px; }
+  .success-inner .beacon{
+    margin-bottom:10px;
+    border-color:var(--sage); color:var(--sage);
+    box-shadow:0 0 0 5px rgba(126,148,129,0.16), 0 0 14px 2px rgba(126,148,129,0.4);
+  }
+  .call-now-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--amber);
+    color:var(--ink);
+    font-weight:600;
+    font-size:16px;
+    text-decoration:none;
+    padding:16px 30px;
+    border-radius:999px;
+    margin:24px 0 16px;
+    transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .call-now-btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 6px 18px rgba(227,162,77,0.35);
+  }
+  .success-fine{ font-size:13px !important; color:var(--text-dark-dim); opacity:0.85; }
+
+  /* ---------- stage nav ---------- */
+  .stage-nav{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+    margin-top:8px;
+  }
+  .stage-btn{
+    font-size:14.5px;
+    padding:12px 24px;
+    border-radius:var(--radius);
+    cursor:pointer;
+    transition:background .2s ease, border-color .2s ease, opacity .2s ease, transform .15s ease;
+  }
+  .stage-btn.ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--text-light-dim);
+  }
+  .stage-btn.ghost:hover{ border-color:var(--amber); color:var(--text-light); }
+  .stage-btn.ghost.hidden{ visibility:hidden; }
+  .stage-btn.primary{
+    background:var(--amber);
+    border:1px solid var(--amber);
+    color:var(--ink);
+    font-weight:600;
+    margin-left:auto;
+  }
+  .stage-btn.primary:hover{ transform:translateY(-1px); }
+  .stage-btn.primary:disabled{ opacity:0.4; cursor:not-allowed; transform:none; }
+  .stage-btn.primary.hidden{ display:none; }
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--ink);
+    padding:14px 0 32px;
+    border-top:1px solid var(--line);
+  }
+  @media (max-width:640px){ footer{ padding:10px 0 24px; } }
+  footer .wrap{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  footer .legal{ font-size:12px; color:var(--text-light-dim); max-width:640px; line-height:1.6; }
+  footer .contact{ font-size:13px; color:var(--text-light-dim); }
+  footer .contact a{ color:var(--amber); text-decoration:none; }
+</style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1773387730337811');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1773387730337811&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <div class="wordmark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 7 8.5 7 13.5C7 16.5376 9.23858 19 12 19C14.7614 19 17 16.5376 17 13.5C17 8.5 12 2 12 2Z" stroke="#E3A24D" stroke-width="1.4"/><path d="M12 19V22" stroke="#E3A24D" stroke-width="1.4" stroke-linecap="round"/></svg>
+      HonestQuote
+    </div>
+    <a class="navlink" href="#stage">Request coverage</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="horizon" viewBox="0 0 1120 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="70" x2="1120" y2="70" stroke="rgba(243,241,231,0.10)" stroke-width="1"/>
+    <circle cx="180" cy="70" r="1.6" fill="#7E9481"/>
+    <circle cx="420" cy="70" r="1.6" fill="#E3A24D"/>
+    <circle cx="700" cy="70" r="1.6" fill="#7C8FA6"/>
+    <circle cx="930" cy="70" r="1.6" fill="#C1694C"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Coverage requests</span>
+    <h1>Pick the one thing this needs to protect. <em>We'll build the rest around it.</em></h1>
+    <p class="lede">Coverage means something different depending on what it's for — the mortgage, the household, the funeral home, or the people you'd want to leave something to. Answer six short questions and a licensed agent will follow up with options sized to it.</p>
+  </div>
+</header>
+
+<section class="stage" id="stage">
+  <div class="wrap">
+
+    <div class="stage-head">
+      <span class="eyebrow stage-step-label" id="stage-step-label">Step 1 of 6</span>
+      <div class="stage-dots" id="stage-dots" aria-hidden="true">
+        <span class="stage-dot"></span>
+        <span class="stage-dot"></span>
+        <span class="stage-dot"></span>
+        <span class="stage-dot"></span>
+        <span class="stage-dot"></span>
+        <span class="stage-dot"></span>
+      </div>
+    </div>
+
+    <div class="slide-viewport" id="slide-viewport">
+      <div class="slide-track" id="slide-track">
+
+        <!-- Slide 1: Goal -->
+        <div class="slide" data-slide-name="goal">
+          <div class="picker-head">
+            <span class="eyebrow">Step 1</span>
+            <h2>What should this coverage take care of?</h2>
+            <p>Choose the goal closest to yours. You can always talk through the details with an agent later.</p>
+          </div>
+
+          <div class="goal-grid" role="radiogroup" aria-label="Coverage goal">
+
+            <button type="button" class="goal-card" data-goal="mortgage" data-accent="#E3A24D" data-label="paying off the mortgage" data-desc="Sized so the payoff amount is covered outright, so the house doesn't become a decision your family has to make quickly." aria-pressed="false">
+              <span class="beacon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 11L12 4L21 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10V20H19V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="goal-copy">
+                <h3>Pay off the mortgage</h3>
+                <p>Clear the home loan so no one has to sell, refinance, or scramble.</p>
+              </span>
+              <span class="check"></span>
+            </button>
+
+            <button type="button" class="goal-card" data-goal="cash" data-accent="#7E9481" data-label="building cash that accumulates" data-desc="A policy with a cash-value component, so part of what you pay in builds toward something you can borrow against or grow over time." aria-pressed="false">
+              <span class="beacon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 17L9 12L13 15L20 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7H20V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="goal-copy">
+                <h3>Create cash accumulation</h3>
+                <p>Build value alongside the coverage, not just a payout later.</p>
+              </span>
+              <span class="check"></span>
+            </button>
+
+            <button type="button" class="goal-card" data-goal="final-expenses" data-accent="#7C8FA6" data-label="covering final expenses" data-desc="A smaller, simpler policy meant to cover funeral costs and immediate bills, so family isn't paying those out of pocket." aria-pressed="false">
+              <span class="beacon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 8V12L14.5 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="goal-copy">
+                <h3>Cover final expenses</h3>
+                <p>Handle funeral and immediate costs without touching savings.</p>
+              </span>
+              <span class="check"></span>
+            </button>
+
+            <button type="button" class="goal-card" data-goal="legacy" data-accent="#C1694C" data-label="leaving money behind" data-desc="A death benefit set at an amount meant to actually matter to the people who receive it — not just cover costs." aria-pressed="false">
+              <span class="beacon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9.8C4 6.6 6.4 4.5 9 4.5C10.5 4.5 11.6 5.2 12 6.1C12.4 5.2 13.5 4.5 15 4.5C17.6 4.5 20 6.6 20 9.8C20 15.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+              <span class="goal-copy">
+                <h3>Leave money behind</h3>
+                <p>Set an amount meant for the people you name, plain and simple.</p>
+              </span>
+              <span class="check"></span>
+            </button>
+
+          </div>
+
+          <div class="detail-strip" id="detail-strip">
+            <span class="label" id="detail-label">Mortgage payoff</span>
+            <p id="detail-desc"></p>
+          </div>
+        </div>
+
+        <!-- Slide 2: Amount -->
+        <div class="slide" data-slide-name="amount">
+          <div class="picker-head">
+            <span class="eyebrow">Step 2</span>
+            <h2>About how much coverage?</h2>
+            <p id="amount-subhead">Select a goal on the previous step to see the right ranges.</p>
+          </div>
+
+          <fieldset class="amount-fieldset" id="amount-fieldset" disabled>
+            <legend class="sr-only">Approximate coverage amount</legend>
+            <div class="radio-row amount-row" id="amount-options"><span class="empty-hint">Waiting on Step 1 — pick a goal first.</span></div>
+          </fieldset>
+        </div>
+
+        <!-- Slide 3: Age -->
+        <div class="slide" data-slide-name="age">
+          <div class="picker-head">
+            <span class="eyebrow">Step 3</span>
+            <h2>How old are you?</h2>
+            <p>Age affects the numbers more than almost anything else — we ask early so what you see later is close to real.</p>
+          </div>
+
+          <div class="age-input-row">
+            <input type="number" id="age-input" min="18" max="100" inputmode="numeric" placeholder="34" aria-label="Your age">
+            <span class="age-suffix">years old</span>
+          </div>
+        </div>
+
+        <!-- Slide 4: Beneficiary -->
+        <div class="slide" data-slide-name="beneficiary">
+          <div class="picker-head">
+            <span class="eyebrow">Step 4</span>
+            <h2>Who's this for?</h2>
+            <p>Name the person you'd want to receive this. You can add more or change it later with your agent.</p>
+          </div>
+
+          <div class="beneficiary-input-row">
+            <input type="text" id="beneficiary-input" placeholder="e.g. Maria Alvarez" aria-label="Beneficiary name" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Slide 5: Budget -->
+        <div class="slide" data-slide-name="budget">
+          <div class="picker-head">
+            <span class="eyebrow">Step 5</span>
+            <h2>What's a comfortable monthly budget?</h2>
+            <p>A ballpark is fine. This helps an agent bring options that actually fit, instead of guessing.</p>
+          </div>
+
+          <fieldset class="budget-fieldset" id="budget-fieldset">
+            <legend class="sr-only">Preferred monthly budget</legend>
+            <div class="radio-row budget-row" id="budget-options">
+              <label class="budget-pill" for="budget-opt-0"><input type="radio" id="budget-opt-0" name="budget-choice" value="$25–$49"> $25 – $49</label>
+              <label class="budget-pill" for="budget-opt-1"><input type="radio" id="budget-opt-1" name="budget-choice" value="$50–$89"> $50 – $89</label>
+              <label class="budget-pill" for="budget-opt-2"><input type="radio" id="budget-opt-2" name="budget-choice" value="$90–$129"> $90 – $129</label>
+              <label class="budget-pill" for="budget-opt-3"><input type="radio" id="budget-opt-3" name="budget-choice" value="$129–$159"> $129 – $159</label>
+              <label class="budget-pill" for="budget-opt-4"><input type="radio" id="budget-opt-4" name="budget-choice" value="$160–$200"> $160 – $200</label>
+              <label class="budget-pill" for="budget-opt-5"><input type="radio" id="budget-opt-5" name="budget-choice" value="$200+"> $200+</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- Slide 6: Contact details -->
+        <div class="slide theme-paper" data-slide-name="contact">
+          <div class="form-head">
+            <span class="eyebrow">Step 6</span>
+            <h2>Request coverage details</h2>
+            <p>This goes to a licensed agent, not a bot — expect a real follow-up, not a form letter. Currently set up for <span id="goal-target">no goal selected yet</span>.</p>
+          </div>
+
+          <form class="request" id="coverage-form">
+            <div class="field">
+              <label for="full-name">Full name</label>
+              <input type="text" id="full-name" name="full-name" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" required autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="state">State</label>
+              <select id="state" name="state" required>
+                <option value="" disabled selected>Select state</option>
+                <option>Alabama</option>
+                <option>Alaska</option>
+                <option>Arizona</option>
+                <option>Arkansas</option>
+                <option>California</option>
+                <option>Colorado</option>
+                <option>Connecticut</option>
+                <option>Delaware</option>
+                <option>District of Columbia</option>
+                <option>Florida</option>
+                <option>Georgia</option>
+                <option>Hawaii</option>
+                <option>Idaho</option>
+                <option>Illinois</option>
+                <option>Indiana</option>
+                <option>Iowa</option>
+                <option>Kansas</option>
+                <option>Kentucky</option>
+                <option>Louisiana</option>
+                <option>Maine</option>
+                <option>Maryland</option>
+                <option>Massachusetts</option>
+                <option>Michigan</option>
+                <option>Minnesota</option>
+                <option>Mississippi</option>
+                <option>Missouri</option>
+                <option>Montana</option>
+                <option>Nebraska</option>
+                <option>Nevada</option>
+                <option>New Hampshire</option>
+                <option>New Jersey</option>
+                <option>New Mexico</option>
+                <option>New York</option>
+                <option>North Carolina</option>
+                <option>North Dakota</option>
+                <option>Ohio</option>
+                <option>Oklahoma</option>
+                <option>Oregon</option>
+                <option>Pennsylvania</option>
+                <option>Rhode Island</option>
+                <option>South Carolina</option>
+                <option>South Dakota</option>
+                <option>Tennessee</option>
+                <option>Texas</option>
+                <option>Utah</option>
+                <option>Vermont</option>
+                <option>Virginia</option>
+                <option>Washington</option>
+                <option>West Virginia</option>
+                <option>Wisconsin</option>
+                <option>Wyoming</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="zip">ZIP code</label>
+              <input type="text" id="zip" name="zip" pattern="[0-9]{5}" maxlength="5" required inputmode="numeric">
+            </div>
+            <div class="field full">
+              <fieldset class="contact-time">
+                <legend>Best time to reach you</legend>
+                <div class="contact-time-row">
+                  <label><input type="radio" name="contact-time" value="Morning" required> Morning</label>
+                  <label><input type="radio" name="contact-time" value="Afternoon"> Afternoon</label>
+                  <label><input type="radio" name="contact-time" value="Evening"> Evening</label>
+                </div>
+              </fieldset>
+            </div>
+
+            <input type="hidden" id="goal-field" name="goal" value="">
+            <input type="hidden" id="amount-field" name="coverage-amount" value="">
+            <input type="hidden" id="age-field" name="age" value="">
+            <input type="hidden" id="beneficiary-field" name="beneficiary" value="">
+            <input type="hidden" id="budget-field" name="monthly-budget" value="">
+
+            <div class="submit-row">
+              <button type="submit" class="submit">Request my coverage details</button>
+              <p class="fine">By submitting, you agree to be contacted by a licensed agent about this request. No obligation to buy anything.</p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Slide 7: Success -->
+        <div class="slide theme-paper" data-slide-name="success">
+          <div class="success-inner">
+            <span class="beacon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="eyebrow success-eyebrow">Request received</span>
+            <h2>A real agent is going to call you.</h2>
+            <p>Your assigned agent, Ethan White, licensed in your state, will reach out <span id="success-contact-time">soon</span> with coverage options built around what you told us. This isn't an automated queue — expect an actual phone call.</p>
+
+            <a class="call-now-btn" href="tel:+16302700525">
+              <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M6.5 3.5C6.9 3.1 7.5 3 8 3.2L10.3 4.2C10.9 4.4 11.2 5 11.1 5.6L10.6 8.1C10.5 8.6 10.2 9 9.8 9.2C9.3 9.5 9.2 10.1 9.5 10.6C10.2 11.9 11.1 13.1 12.2 14.1C12.7 14.6 13.5 14.6 14 14.1C14.4 13.7 15 13.6 15.5 13.9L17.7 15.2C18.2 15.5 18.5 16.1 18.3 16.6L17.5 18.8C17.3 19.3 16.9 19.7 16.4 19.8C11 20.8 4.2 14 3.6 8.4C3.5 7.9 3.7 7.4 4.1 7.1L6.5 3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              Call now — (630) 270-0525
+            </a>
+
+            <p class="success-fine">Prefer to just wait for the call? You don't need to do anything else — we've already got what we need.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="stage-nav" id="stage-nav">
+      <button type="button" class="stage-btn ghost hidden" id="back-btn">← Back</button>
+      <button type="button" class="stage-btn primary" id="continue-btn" disabled>Continue</button>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="legal">This page collects information to route to a licensed insurance agent and is not itself an offer of insurance, a quote, or a binding application. Availability, pricing, and terms vary by state, carrier, and underwriting. Nothing here should be treated as financial or legal advice.</p>
+    <p class="contact">Questions first? <a href="mailto:ethanwhite.life@gmail.com">ethanwhite.life@gmail.com</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const QUESTION_COUNT = 6; // goal, amount, age, beneficiary, budget, contact
+
+  const track = document.getElementById('slide-track');
+  const viewport = document.getElementById('slide-viewport');
+  const slides = Array.from(track.querySelectorAll('.slide'));
+  const stepLabel = document.getElementById('stage-step-label');
+  const dots = Array.from(document.querySelectorAll('.stage-dot'));
+  const backBtn = document.getElementById('back-btn');
+  const continueBtn = document.getElementById('continue-btn');
+
+  let current = 0;
+
+  const cards = document.querySelectorAll('.goal-card');
+  const strip = document.getElementById('detail-strip');
+  const label = document.getElementById('detail-label');
+  const desc = document.getElementById('detail-desc');
+  const goalField = document.getElementById('goal-field');
+  const goalTarget = document.getElementById('goal-target');
+  const titleMap = {
+    'mortgage': 'Mortgage payoff',
+    'cash': 'Cash accumulation',
+    'final-expenses': 'Final expenses',
+    'legacy': 'Leaving money behind'
+  };
+
+  const amountSets = {
+    standard: ['Under $50,000', '$50,000–$150,000', '$150,000–$300,000', '$300,000–$500,000', '$500,000+', 'Not sure — need guidance'],
+    small: ['Under $5,000', '$5,000–$10,000', '$10,000–$15,000', '$15,000–$20,000', '$20,000–$30,000', '$30,000+', 'Not sure — need guidance']
+  };
+  const goalAmountSet = {
+    'mortgage': 'standard',
+    'cash': 'standard',
+    'final-expenses': 'small',
+    'legacy': 'small'
+  };
+  const amountSubheadMap = {
+    'mortgage': 'Typical mortgage payoff ranges. Pick the closest one — exact figures come later.',
+    'cash': 'Typical ranges for cash-value policies. Pick the closest one — exact figures come later.',
+    'final-expenses': 'Final expense policies are usually smaller and simpler. Pick the closest range.',
+    'legacy': 'What you\u2019d want the people you name to actually receive. Pick the closest range.'
+  };
+
+  const amountFieldset = document.getElementById('amount-fieldset');
+  const amountOptions = document.getElementById('amount-options');
+  const amountSubhead = document.getElementById('amount-subhead');
+  const amountField = document.getElementById('amount-field');
+
+  const ageInput = document.getElementById('age-input');
+  const ageField = document.getElementById('age-field');
+
+  const beneficiaryInput = document.getElementById('beneficiary-input');
+  const beneficiaryField = document.getElementById('beneficiary-field');
+
+  const budgetOptions = document.getElementById('budget-options');
+  const budgetField = document.getElementById('budget-field');
+
+  const form = document.getElementById('coverage-form');
+
+  /* ---------- slide engine ---------- */
+  function syncHeight(){
+    const active = slides[current];
+    viewport.style.height = active.scrollHeight + 'px';
+  }
+
+  function isValid(index){
+    switch(index){
+      case 0: return !!goalField.value;
+      case 1: return !!amountField.value;
+      case 2: return !!ageField.value && Number(ageField.value) >= 18;
+      case 3: return !!beneficiaryField.value.trim();
+      case 4: return !!budgetField.value;
+      default: return true;
+    }
+  }
+
+  function updateUI(){
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+    if(current < QUESTION_COUNT){
+      stepLabel.textContent = 'Step ' + (current + 1) + ' of ' + QUESTION_COUNT;
+    } else {
+      stepLabel.textContent = 'Done';
+    }
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('done', i < current);
+      dot.classList.toggle('active', i === current);
+    });
+
+    backBtn.classList.toggle('hidden', current === 0 || current >= QUESTION_COUNT);
+    continueBtn.classList.toggle('hidden', current >= QUESTION_COUNT - 1);
+    continueBtn.disabled = !isValid(current);
+
+    syncHeight();
+  }
+
+  function goTo(index){
+    current = Math.max(0, Math.min(slides.length - 1, index));
+    updateUI();
+  }
+  function goNext(){
+    if(isValid(current)) goTo(current + 1);
+  }
+  function goPrev(){ goTo(current - 1); }
+
+  backBtn.addEventListener('click', goPrev);
+  continueBtn.addEventListener('click', goNext);
+
+  window.addEventListener('resize', () => { syncHeight(); });
+
+  /* ---------- slide 1: goal ---------- */
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      cards.forEach(c => {
+        c.classList.remove('selected');
+        c.setAttribute('aria-pressed', 'false');
+        c.style.removeProperty('--goal-accent');
+      });
+      card.classList.add('selected');
+      card.setAttribute('aria-pressed', 'true');
+      const accent = card.getAttribute('data-accent');
+      card.style.setProperty('--goal-accent', accent);
+
+      const goalKey = card.getAttribute('data-goal');
+      label.textContent = titleMap[goalKey];
+      desc.textContent = card.getAttribute('data-desc');
+      strip.style.setProperty('--goal-accent', accent);
+      strip.classList.add('visible');
+
+      goalField.value = titleMap[goalKey];
+      goalTarget.textContent = card.getAttribute('data-label');
+
+      buildAmountOptions(goalKey, accent);
+      updateUI();
+      setTimeout(() => { if(current === 0) goNext(); }, 380);
+    });
+  });
+
+  /* ---------- slide 2: amount ---------- */
+  function buildAmountOptions(goalKey, accent){
+    const setKey = goalAmountSet[goalKey];
+    const values = amountSets[setKey];
+    amountField.value = '';
+    amountOptions.innerHTML = '';
+    values.forEach((val, i) => {
+      const id = 'amount-opt-' + i;
+      const pill = document.createElement('label');
+      pill.className = 'amount-pill';
+      pill.setAttribute('for', id);
+      pill.innerHTML = '<input type="radio" id="' + id + '" name="coverage-amount-choice" value="' + val + '"> ' + val;
+      amountOptions.appendChild(pill);
+    });
+    amountFieldset.removeAttribute('disabled');
+    amountFieldset.style.setProperty('--goal-accent', accent);
+    amountSubhead.textContent = amountSubheadMap[goalKey];
+  }
+
+  amountOptions.addEventListener('change', (e) => {
+    if(e.target && e.target.name === 'coverage-amount-choice'){
+      amountField.value = e.target.value;
+      amountOptions.querySelectorAll('.amount-pill').forEach(p => p.classList.remove('checked'));
+      e.target.closest('.amount-pill').classList.add('checked');
+      updateUI();
+      setTimeout(() => { if(current === 1) goNext(); }, 380);
+    }
+  });
+
+  /* ---------- slide 3: age ---------- */
+  ageInput.addEventListener('input', () => {
+    ageField.value = ageInput.value;
+    updateUI();
+  });
+  ageInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); if(current === 2) goNext(); }
+  });
+  ageInput.addEventListener('blur', () => {
+    if(current === 2 && isValid(2)) goNext();
+  });
+
+  /* ---------- slide 4: beneficiary ---------- */
+  beneficiaryInput.addEventListener('input', () => {
+    beneficiaryField.value = beneficiaryInput.value;
+    updateUI();
+  });
+  beneficiaryInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); if(current === 3) goNext(); }
+  });
+  beneficiaryInput.addEventListener('blur', () => {
+    if(current === 3 && isValid(3)) goNext();
+  });
+
+  /* ---------- slide 5: budget ---------- */
+  budgetOptions.addEventListener('change', (e) => {
+    if(e.target && e.target.name === 'budget-choice'){
+      budgetField.value = e.target.value;
+      budgetOptions.querySelectorAll('.budget-pill').forEach(p => p.classList.remove('checked'));
+      e.target.closest('.budget-pill').classList.add('checked');
+      updateUI();
+      setTimeout(() => { if(current === 4) goNext(); }, 380);
+    }
+  });
+
+  /* ---------- slide 6: contact form / submit ---------- */
+
+  // Paste the Web app URL from your Apps Script deployment here.
+  // Leave it as-is (or blank) and the form will still work locally —
+  // it just won't save anywhere until this is filled in.
+  const APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!isValid(0)){ goTo(0); return; }
+    if(!isValid(1)){ goTo(1); return; }
+    if(!isValid(2)){ goTo(2); return; }
+    if(!isValid(3)){ goTo(3); return; }
+    if(!isValid(4)){ goTo(4); return; }
+    if(!form.reportValidity()) return;
+
+    const chosenTime = form.querySelector('input[name="contact-time"]:checked');
+    const successTime = document.getElementById('success-contact-time');
+    if(chosenTime && successTime){
+      successTime.textContent = 'this ' + chosenTime.value.toLowerCase();
+    }
+
+    if(APPS_SCRIPT_URL && APPS_SCRIPT_URL.indexOf('PASTE_YOUR') === -1){
+      const formData = new FormData(form);
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      }).catch(() => {
+        // Even on network hiccups, don't block the person from seeing
+        // the confirmation screen — the lead data is still in formData.
+      });
+    }
+
+    goTo(6);
+  });
+
+  updateUI();
+})();
+</script>
+
+</body>
+</html>
